@@ -14,20 +14,20 @@ import java.util.Arrays;
 public class RegisterService {
 
     @Autowired
-    private Argon2HashingEngine encoder;
+    private Argon2HashingEngine engine;
     @Autowired
     private IUserRepository userRepository;
 
     public String registerUser(UserDetails userDetails) {
-        encoder.encode(Arrays.toString(userDetails.getPassword()));
+        engine.encode(Arrays.toString(userDetails.getPassword()));
 
         User user = new User();
         user.setUserName(userDetails.getUserName());
         user.setEmailId(userDetails.getEmail());
 
         UserCredentials userCredentials = new UserCredentials();
-        userCredentials.setUserPassword(encoder.getPassword());
-        userCredentials.setUserSalt(encoder.getSalt());
+        userCredentials.setUserPassword(engine.getPassword());
+        userCredentials.setUserSalt(engine.getSalt());
         user.setUserCredentials(userCredentials);
         userCredentials.setUser(user);
 

@@ -15,15 +15,18 @@ public class LoginService {
     @Autowired
     IUserRepository userRepository;
 
+    @Autowired
+    Argon2HashingEngine argonHashingEngine;
+
     public String login(LoginDetails loginDetails) {
 
         User user = userRepository.findByUserName(loginDetails.getUserName());
 
         if (user==null)  return "User not registered";
 
-        Argon2HashingEngine engine = new Argon2HashingEngine(user.getUserCredentials().getUserSalt());
-        engine.encode(Arrays.toString(loginDetails.getPassword()));
-        if (engine.getPassword().equalsIgnoreCase(user.getUserCredentials().getUserPassword())) return "Login is success";
+        argonHashingEngine.setSalt(user.getUserCredentials().getUserSalt());
+        argonHashingEngine.encode(Arrays.toString(loginDetails.getPassword()));
+        if (argonHashingEngine.getPassword().equalsIgnoreCase(user.getUserCredentials().getUserPassword())) return "Login is success";
 
         return "Login failed";
     }

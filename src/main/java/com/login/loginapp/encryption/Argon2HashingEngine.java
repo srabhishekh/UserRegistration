@@ -33,7 +33,7 @@ public class Argon2HashingEngine implements PasswordEncoder {
         return password;
     }
 
-    public void setPassword(String password) {
+    private void setPassword(String password) {
         this.password = password;
     }
 
