@@ -5,8 +5,10 @@ import com.login.loginapp.api.entity.User;
 import com.login.loginapp.api.repository.IUserRepository;
 import com.login.loginapp.encryption.Argon2HashingEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.CharBuffer;
 import java.util.Arrays;
 
 @Service
@@ -16,7 +18,7 @@ public class LoginService {
     IUserRepository userRepository;
 
     @Autowired
-    Argon2HashingEngine argonHashingEngine;
+    PasswordEncoder passwordEncoder;
 
     public String login(LoginDetails loginDetails) {
 
@@ -24,9 +26,13 @@ public class LoginService {
 
         if (user==null)  return "User not registered";
 
-        argonHashingEngine.setSalt(user.getUserCredentials().getUserSalt());
-        argonHashingEngine.encode(Arrays.toString(loginDetails.getPassword()));
-        if (argonHashingEngine.getPassword().equalsIgnoreCase(user.getUserCredentials().getUserPassword())) return "Login is success";
+        if (passwordEncoder.matches(CharBuffer.wrap(loginDetails.getPassword()), user.getUserCredentials().getUserPassword())) {
+            return "Login is success";
+        }
+
+        // argonHashingEngine.setSalt(user.getUserCredentials().getUserSalt());
+        // argonHashingEngine.encode(Arrays.toString(loginDetails.getPassword()));
+        // if (argonHashingEngine.getPassword().equalsIgnoreCase(user.getUserCredentials().getUserPassword())) return "Login is success";
 
         return "Login failed";
     }
