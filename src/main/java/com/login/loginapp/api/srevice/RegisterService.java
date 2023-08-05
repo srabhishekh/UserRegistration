@@ -5,6 +5,7 @@ import com.login.loginapp.api.entity.UserCredentials;
 import com.login.loginapp.api.model.UserDetails;
 import com.login.loginapp.api.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,25 +19,25 @@ public class RegisterService {
     @Autowired
     private IUserRepository userRepository;
 
-    public String registerUser(UserDetails userDetails) {
-        passwordEncoder.encode(CharBuffer.wrap(userDetails.getPassword()));
-
-        User user = new User();
-        user.setUserName(userDetails.getUserName());
-        user.setEmailId(userDetails.getEmail());
-
-        UserCredentials userCredentials = new UserCredentials();
-        userCredentials.setUserPassword(passwordEncoder.encode(CharBuffer.wrap(userDetails.getPassword())));
-        user.setUserCredentials(userCredentials);
-        userCredentials.setUser(user);
-
+    public ResponseEntity registerUser(UserDetails userDetails) {
         if (userRepository.findByEmailId(userDetails.getEmail())!=null) {
-            return "User already registered";
+            return ResponseEntity.badRequest().body("e-Mail id taken");
         } else if (userRepository.findByUserName(userDetails.getUserName())!=null) {
-            return "e-mail id taken";
+            return ResponseEntity.badRequest().body("User name taken");
         } else {
+            passwordEncoder.encode(CharBuffer.wrap(userDetails.getPassword()));
+
+            User user = new User();
+            user.setUserName(userDetails.getUserName());
+            user.setEmailId(userDetails.getEmail());
+
+            UserCredentials userCredentials = new UserCredentials();
+            userCredentials.setUserPassword(passwordEncoder.encode(CharBuffer.wrap(userDetails.getPassword())));
+            user.setUserCredentials(userCredentials);
+            userCredentials.setUser(user);
+
             userRepository.save(user);
-            return "User registration success";
+            return ResponseEntity.ok("User registration success");
         }
     }
 }
