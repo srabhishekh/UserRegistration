@@ -13,6 +13,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody UserDetails userDetails) {
-        return registerService.registerUser(userDetails);
+        registerService.registerUser(userDetails);
+        return ResponseEntity.ok().body("User registered successfully");
     }
 }

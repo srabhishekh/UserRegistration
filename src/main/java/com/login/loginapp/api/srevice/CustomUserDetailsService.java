@@ -2,6 +2,7 @@ package com.login.loginapp.api.srevice;
 
 import com.login.loginapp.api.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.login.loginapp.api.entity.User user = userRepository.findByUserName(username);
-
+        if (user==null) {
+            throw new UsernameNotFoundException("Invalid user name");
+        }
         UserDetails userDetails = User.withUsername(user.getUserName()).password(user.getUserCredentials().getUserPassword())
                 .roles("USER_ROLE")
                 .build();
