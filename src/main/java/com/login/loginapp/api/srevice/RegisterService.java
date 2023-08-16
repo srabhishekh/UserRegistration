@@ -21,10 +21,10 @@ public class RegisterService {
     private IUserRepository userRepository;
 
     public void registerUser(UserDetails userDetails) {
-        if (userRepository.findByEmailId(userDetails.getEmail())!=null) {
-            throw new InvalidInputException(HttpStatus.BAD_REQUEST, "e-Mail id taken");
-        } else if (userRepository.findByUserName(userDetails.getUsername())!=null) {
-            throw new InvalidInputException(HttpStatus.BAD_REQUEST, "User name taken");
+        if (userRepository.findByUserName(userDetails.getUsername())!=null) {
+            throw new InvalidInputException(HttpStatus.BAD_REQUEST, "Username taken");
+        } else if (userRepository.findByEmailId(userDetails.getEmail())!=null) {
+            throw new InvalidInputException(HttpStatus.BAD_REQUEST, "Email address taken");
         } else {
             passwordEncoder.encode(CharBuffer.wrap(userDetails.getPassword()));
 
