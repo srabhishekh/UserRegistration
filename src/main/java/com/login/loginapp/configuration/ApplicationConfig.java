@@ -1,9 +1,11 @@
 package com.login.loginapp.configuration;
 
+import com.login.loginapp.api.config.CustomAuthenticationProvider;
 import com.login.loginapp.api.handler.CustomAuthenticationSuccessHandler;
 import com.login.loginapp.api.handler.CustomAuthenticatorFailureHandler;
 import com.login.loginapp.api.handler.CustomLogoutSuccessHandler;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -25,6 +27,11 @@ public class ApplicationConfig {
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        return new CustomAuthenticationProvider();
     }
 
 }
