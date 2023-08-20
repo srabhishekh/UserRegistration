@@ -3,7 +3,6 @@ package com.login.api.srevice;
 import com.login.api.authentication.CustomOauthAuthenticationToken;
 import com.login.api.repository.IUserRepository;
 import com.login.api.model.GoogleOauth;
-import com.login.api.model.UserDetails;
 import com.nimbusds.jose.shaded.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

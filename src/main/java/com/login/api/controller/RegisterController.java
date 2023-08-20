@@ -1,6 +1,6 @@
 package com.login.api.controller;
 
-import com.login.api.model.UserDetails;
+import com.login.api.model.RegistrationUserDetails;
 import com.login.api.srevice.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +12,8 @@ public class RegisterController {
     private RegisterService registerService;
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody UserDetails userDetails) {
-        registerService.registerUser(userDetails);
+    public ResponseEntity registerUser(@RequestBody RegistrationUserDetails registrationUserDetails) {
+        registerService.registerUser(registrationUserDetails);
         return ResponseEntity.ok().body("User registered successfully");
     }
 }
