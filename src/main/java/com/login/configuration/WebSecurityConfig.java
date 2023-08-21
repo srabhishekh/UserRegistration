@@ -25,9 +25,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class WebSecurityConfig {
 
     @Autowired
-    private AuthenticationConfiguration authenticationConfiguration;
-
-    @Autowired
     AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
@@ -38,12 +35,6 @@ public class WebSecurityConfig {
 
     @Autowired
     CorsConf corsConfigurationSource;
-
-    @Autowired
-    ClientRegistrationRepository clientRegistrationRepository;
-
-    @Autowired
-    OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -69,13 +60,6 @@ public class WebSecurityConfig {
         http.logout(logout -> logout.deleteCookies("JSESSIONID"));
         http.logout(logout -> logout.logoutSuccessHandler(logoutSuccessHandler));
         http.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource));
-        //http.addFilter(getCustomFilter());
         return http.build();
-    }
-
-    private Filter getCustomFilter() throws Exception {
-        CustomOAuthAuthenticationFilter customOAuthAuthenticationFilter = new CustomOAuthAuthenticationFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
-        customOAuthAuthenticationFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
-        return customOAuthAuthenticationFilter;
     }
 }

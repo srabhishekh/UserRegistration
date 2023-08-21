@@ -30,8 +30,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         System.out.println("request.getRequestURI() : "+request.getRequestURI());
 
-        if ("/login/oauth2/code/google".equalsIgnoreCase(request.getRequestURI())) {
+        //if ("/login/oauth2/code/google".equalsIgnoreCase(request.getRequestURI())) {
             response.sendRedirect("http://localhost:3000/");
-        }
+        //}
     }
 }
