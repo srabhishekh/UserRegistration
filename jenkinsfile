@@ -1,22 +1,9 @@
 pipeline {
 	agent any
 	stages {
-  		stage('build') {
-    		steps {
-		      echo 'building'
-		    }
-		}
-
-  stage('test') {
+  stage('MavenInstall') {
     steps {
-      echo 'testing'
-    }
-  }
-
-  stage('deploy') {
-    steps {
-      echo 'deploying'
-      echo 'done'
+      // One or more steps need to be included within the steps block.
     }
   }
 
